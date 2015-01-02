@@ -1,0 +1,6 @@
+recursive-include tests *.py
+recursive-include zookeeper_monitor/front/static *.*
+recursive-include zookeeper_monitor/front/template *.*
+
+include requirements
+include README.rst

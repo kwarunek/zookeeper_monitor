@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ data['info']['cluster'] }} / {{ data['info']['dc'] }} / {{ data['info']['addr'] }}
+{% end %}
+
+{% block content %}
+    <h1>{{ data['info']['cluster'] }} / {{ data['info']['dc'] }} / {{ data['info']['addr'] }}</h1>
+        <div>
+        <p class="dinfo">
+            <b>HEALTH</b>: {{ data['info']['health'] }};
+            <b>addr</b>: {{ data['info']['addr'] }};
+            <b>port</b>: {{ data['info']['port'] }};
+        {% for key, val in data['info']['info'].items() %}
+            <b>{{ key }}</b>: {{ val }};
+        {% end %}
+        </p>
+        </div>
+        <div class="cluster">
+            <div class="dc">
+                <div class="label">{{ data['stat']['head'] }}</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>host</th>
+                            <th>port</th>
+                            <th>N</th>
+                            <th>queued</th>
+                            <th>recved</th>
+                            <th>sent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                {% for client in data['stat']['clients'] %}
+                        <tr>
+                            <td>{{ client['host'] }}</td>
+                            <td>{{ client['port'] }}</td>
+                            <td>{{ client['n'] }}</td>
+                            <td>{{ client['queued'] }}</td>
+                            <td>{{ client['recved'] }}</td>
+                            <td>{{ client['sent'] }}</td>
+                        </tr>
+                {% end %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+{% end %}

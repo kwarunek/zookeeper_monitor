@@ -1,0 +1,8 @@
+{
+    "name": "configuration-zookeeper",
+    "hosts": [
+                {"addr": "10.177.53.45", "port": 2181, "dc":"c1r1"},
+                {"addr": "10.177.56.129", "port": 2181, "dc":"c1r1"},
+                {"addr": "10.177.54.121", "port": 2181, "dc":"c1r1"}
+    ]
+}

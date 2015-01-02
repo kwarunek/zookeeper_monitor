@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ data['name'] }}
+{% end %}
+
+{% block content %}
+        <div class="cluster">
+            <div class="dc">
+                <div class="label">{{ data['name'] }}</div>
+                <div class="boxs">
+                {% for host in data['hosts'] %}
+                <a href="/cluster/host/{{ host['addr'] }}-{{ host['port'] }}" class="box {{ host['info']['mode'] }} {{ host['health'] }}">
+                        <div class="mode">{{ host['info']['mode'] }}</div>
+                        <div class="ip">{{ host['addr'] }}</div>
+                        <div class="info">zxid: {{ host['info']['zxid'] }}<br>conns: {{ host['info']['connections'] }}</div>
+                    </a> <!-- box end -->
+                {% end %}
+                <div class="clearfix"></div>
+                </div>
+                <p class="details_info">Click on host to get details</p>
+            </div>
+        </div>
+{% end %}
