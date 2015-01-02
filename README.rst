@@ -46,12 +46,10 @@ Defining cluster `cluster.json` (json or yaml)
     } 
     
 - name (string): cluster name
-- hosts (list): List of hosts running ZooKeeper connected in cluster
-    
-    Host object:
-        - addr (string): IP or domain, mandatory
-        - port (int): ZooKeeper port, optional, default 2181
-        - dc (string): datacenter/location name, optional
+- hosts (list): List of hosts running ZooKeeper connected in cluster. Object:
+    - addr (string): IP or domain, mandatory
+    - port (int): ZooKeeper port, optional, default 2181
+    - dc (string): datacenter/location name, optional
 
 License
 -------
@@ -67,8 +65,13 @@ Changelog
 ---------
 
 0.1.2 - **release** - pypi
+
 0.1.1 - clean up
+
 0.1.0 - public standalone
+
 0.0.3 - 0.0.9 - refactor, tests
+
 0.0.2 - working draft
+
 0.0.1 - initial concept
