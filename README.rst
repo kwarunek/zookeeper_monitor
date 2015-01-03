@@ -103,12 +103,14 @@ TODO
 ----
 - more tests
 - more stats in webmonitor
+- parse zookeeper version
+- new commands in zookeeper 3.3 and 3.4
 - parse output of dump, reqs
 
 Changelog
 ---------
 
-0.2.0 - **release** - implement all commands, updated docs
+0.2.0 - **release** - implement more commands, updated docs
 
 0.1.2 - **release** - pypi
 
