@@ -64,7 +64,7 @@ class Host(object):
 
     RE_STAT_LINE = re.compile(r'/([\.0-9]{7,}):(\d+)\[(\d+)\]\(queued=(\d+),recved=(\d+),sent=(\d+)\)')
 
-    def __init__(self, addr, port=2181, cluster=None, dc=None, timeout=2):
+    def __init__(self, addr, port=2181, cluster=None, dc=None):
         """ Create cluster's host
 
         Args:
@@ -83,7 +83,7 @@ class Host(object):
         self.info['zxid'] = None
         self.info['connections'] = None
         self.info['mode'] = Host.UNKNOWN
-        self.set_timeout(timeout)
+        self.set_timeout(2)
 
     def set_timeout(self, timeout):
         """ Sets commands timeout

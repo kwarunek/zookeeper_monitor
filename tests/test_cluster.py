@@ -40,27 +40,25 @@ class ClusterTest(AsyncTestCase):
         self.assertRaises(zk.ClusterHostCreateError, self.cluster.add_host)
 
     def test_add_host_and_create(self):
-        self.cluster.add_host(addr=self.FIXTURE_HOST, port=self.FIXTURE_PORT, timeout=123)
+        self.cluster.add_host(addr=self.FIXTURE_HOST, port=self.FIXTURE_PORT)
         self.assertEqual(len(self.cluster._hosts), 1)
         self.assertIsInstance(self.cluster._hosts[0], zk.Host)
         self.assertEqual(self.cluster._hosts[0].port, self.FIXTURE_PORT)
         self.assertEqual(self.cluster._hosts[0].addr, self.FIXTURE_HOST)
         self.assertEqual(self.cluster._hosts[0].cluster, str(self.cluster))
-        self.assertEqual(self.cluster._hosts[0].timeout, 123)
 
     def test_add_host_duplicated_host(self):
-        self.cluster.add_host(addr=self.FIXTURE_HOST, timeout=123)
+        self.cluster.add_host(addr=self.FIXTURE_HOST)
         self.assertRaises(zk.ClusterHostDuplicateError, partial(self.cluster.add_host, addr=self.FIXTURE_HOST))
 
     def test_add_host_object(self):
-        host = zk.Host(self.FIXTURE_HOST, port=self.FIXTURE_PORT, timeout=123)
+        host = zk.Host(self.FIXTURE_HOST, port=self.FIXTURE_PORT)
         self.cluster.add_host(host)
         self.assertEqual(len(self.cluster._hosts), 1)
         self.assertIsInstance(self.cluster._hosts[0], zk.Host)
         self.assertEqual(self.cluster._hosts[0].port, self.FIXTURE_PORT)
         self.assertEqual(self.cluster._hosts[0].addr, self.FIXTURE_HOST)
         self.assertEqual(self.cluster._hosts[0].cluster, str(self.cluster))
-        self.assertEqual(self.cluster._hosts[0].timeout, 123)
 
     def test_add_host_with_dc(self):
         self.cluster.add_dc = MagicMock()

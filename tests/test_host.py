@@ -112,12 +112,11 @@ class HostTest(AsyncTestCase):
         self.assertEqual(host.health, zk.Host.HOST_UNCHECKED)
 
     def test_init(self):
-        host = zk.Host('dummy', port=9999, cluster='FAKE', dc='eu-west', timeout=888)
+        host = zk.Host('dummy', port=9999, cluster='FAKE', dc='eu-west')
         self.assertEqual(host.addr, 'dummy')
         self.assertEqual(host.port, 9999)
         self.assertEqual(host.dc, 'eu-west')
         self.assertEqual(host.cluster, 'FAKE')
-        self.assertEqual(host.timeout, 888)
         self.assertEqual(host.info['zxid'], None)
         self.assertEqual(host.info['mode'], zk.Host.UNKNOWN)
         self.assertEqual(host.health, zk.Host.HOST_UNCHECKED)
