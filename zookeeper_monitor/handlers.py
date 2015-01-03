@@ -3,12 +3,12 @@ import anyconfig
 from tornado import gen, web
 
 
-class JsonClusterHandler(web.RequestHandler):
+class BaseHandler(web.RequestHandler):
     """ Handles json request for cluster data """
-    ACTION = 'cluster'
+    ACTION = 'r'
 
     @gen.coroutine
-    def get(self, param=None):
+    def get(self, param=None):  # pylint: disable=W0221
         """ GET handler
 
         Gets data, dumps to json and send with proper json mime.
@@ -21,7 +21,7 @@ class JsonClusterHandler(web.RequestHandler):
         self.finish()
 
     @gen.coroutine
-    def get_cluster_data(self, param=None):
+    def get_cluster_data(self, param=None):  # pylint: disable=W0613
         """ Cluster data provider
 
         Returns:
@@ -58,12 +58,17 @@ class JsonClusterHandler(web.RequestHandler):
         raise gen.Return({'stat': stat, 'info': info})
 
 
-class JsonHostHandler(JsonClusterHandler):
+class JsonClusterHandler(BaseHandler):
+    """ Handles json request for cluster data """
+    ACTION = 'cluster'
+
+
+class JsonHostHandler(BaseHandler):
     """ Handles json request for host data """
     ACTION = 'host'
 
 
-class HtmlClusterHandler(JsonClusterHandler):
+class HtmlClusterHandler(BaseHandler):
     """ Handles only html and sets appropriate JS param """
     ACTION = 'cluster'
 

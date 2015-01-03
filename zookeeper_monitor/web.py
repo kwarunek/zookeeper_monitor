@@ -8,9 +8,9 @@ import os
 import signal
 import tornado.web
 from tornado.ioloop import IOLoop
-from zookeeper_monitor.handlers import HtmlHostHandler, HtmlClusterHandler, JsonClusterHandler, JsonHostHandler
-from zookeeper_monitor.zk import Cluster
-from zookeeper_monitor.version import __app__, __version__
+from .handlers import HtmlHostHandler, HtmlClusterHandler, JsonClusterHandler, JsonHostHandler
+from zk import Cluster
+from .version import __app__, __version__
 
 
 class App(object):

@@ -6,6 +6,7 @@ If you want to catch all of them simply except ZkBaseError.
 
 """
 
+
 class ZkBaseError(Exception):
     """ Base zookeeper_monitor zk-related exception """
     pass

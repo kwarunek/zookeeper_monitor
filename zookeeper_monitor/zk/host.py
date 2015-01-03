@@ -269,8 +269,9 @@ class Host(object):
         data = yield self.execute('envi')
         parsed = {}
         for line in data.decode('utf-8').split('\n'):
-            if len(line) < 6: continue
-            arr = line.split('=', 1)
+            if len(line) < 6:
+                continue
+            arr = line.split('=', 1)  # NOQA
             parsed[arr[0].strip()]= arr[1].strip()
         raise gen.Return(parsed)
 
