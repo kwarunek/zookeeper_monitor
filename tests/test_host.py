@@ -10,9 +10,9 @@ from .fixtures import host as FIXTURE
 
 
 try:
-    from unittest.mock import patch, Mock, MagicMock
+    from unittest.mock import call, patch, Mock, MagicMock
 except:
-    from mock import patch, Mock, MagicMock
+    from mock import call, patch, Mock, MagicMock
 
 
 class HostTest(AsyncTestCase):
@@ -240,7 +240,7 @@ class HostTest(AsyncTestCase):
             FIXTURE.result_of_execute_srvr_ok.encode('utf-8')
         ))
         ret = yield host.srvr()
-        host.execute.assert_called_once()
+        host.execute.assert_called_once_with('srvr')
         self.assertEqual(host.health, zk.Host.HOST_HEALTHY)
         self.assertIsInstance(ret, dict)
 
@@ -268,3 +268,27 @@ class HostTest(AsyncTestCase):
         ret = yield host.srvr()
         self.assertFalse(ret)
         self.assertEqual(host.health, zk.Host.HOST_TIMEOUT)
+
+    @gen_test
+    def test_envi(self):
+        host = zk.Host('localhost', 2181)
+        host.execute = MagicMock(return_value=gen.maybe_future(
+            FIXTURE.envi['in'].encode('utf-8')
+        ))
+        ret = yield host.envi()
+        host.execute.assert_called_once_with('envi')
+        self.assertEqual(ret, FIXTURE.envi['out'])
+
+    @gen_test
+    def test_dump_kill_srst_ruok_reqs(self):
+        for cmd in ['dump', 'kill', 'ruok', 'srst', 'reqs']:
+            host = zk.Host('localhost', 2181)
+            host.execute = MagicMock(return_value=gen.maybe_future(
+                FIXTURE.simple['in'].encode('utf-8')
+            ))
+            method = getattr(host, cmd)
+            ret = yield method()
+            host.execute.assert_called_once_with(cmd)
+            host.execute.reset_mock()
+            self.assertEqual(ret, FIXTURE.simple['out'])
+

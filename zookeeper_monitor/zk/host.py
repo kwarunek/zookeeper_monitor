@@ -200,7 +200,7 @@ class Host(object):
     @command_executor
     @gen.coroutine
     def srvr(self, update_host_info=True):
-        """ Invokes `srvr` command against host
+        """ Reset statistics returned by stat command.
 
         Executes and fetchs host's srvr. Applies data to object.
 
@@ -218,7 +218,9 @@ class Host(object):
     @command_executor
     @gen.coroutine
     def stat(self, update_host_info=True):
-        """ Invokes `stat` command against host
+        """ Lists statistics about performance and connected clients
+
+        Invokes `stat` command against host
 
         Args:
             update_host_info: If true updates host info (zxid, conns, ...) from stat
@@ -232,6 +234,67 @@ class Host(object):
         info = self._parse_info(not_parsed, update_host_info)
         info.update(parsed)
         raise gen.Return(info)
+
+    @command_executor
+    @gen.coroutine
+    def srst(self):
+        """ Reset statistics returned by stat command
+        """
+        data = yield self.execute('srst')
+        raise gen.Return(data)
+
+    @command_executor
+    @gen.coroutine
+    def kill(self):
+        """ Shuts down the server. This must be issued from the machine the ZooKeeper server is running on.
+        """
+        data = yield self.execute('kill')
+        raise gen.Return(data.decode('utf-8'))
+
+    @command_executor
+    @gen.coroutine
+    def ruok(self):
+        """ Tests if server is running in a non-error state.
+
+        The server will respond with imok if it is running. Otherwise it will not respond at all.
+        """
+        data = yield self.execute('ruok')
+        raise gen.Return(data.decode('utf-8'))
+
+    @command_executor
+    @gen.coroutine
+    def envi(self):
+        """ Print details about serving environment
+        """
+        data = yield self.execute('envi')
+        parsed = {}
+        for line in data.decode('utf-8').split('\n'):
+            if len(line) < 6: continue
+            arr = line.split('=', 1)
+            parsed[arr[0].strip()]= arr[1].strip()
+        raise gen.Return(parsed)
+
+    @command_executor
+    @gen.coroutine
+    def dump(self):
+        """ Lists the outstanding sessions and ephemeral nodes. This only works on the leader.
+
+        Todo:
+            Output need to be parsed.
+        """
+        data = yield self.execute('dump')
+        raise gen.Return(data.decode('utf-8'))
+
+    @command_executor
+    @gen.coroutine
+    def reqs(self):
+        """ List outstanding requests
+
+        Todo:
+            Output need to be parsed.
+        """
+        data = yield self.execute('reqs')
+        raise gen.Return(data.decode('utf-8'))
 
     @gen.coroutine
     def get_info(self):

@@ -67,8 +67,7 @@ parse_stat_data = {
                 {'recved': '45', 'port': '60841', 'host': '1.1.5.38', 'n': '1', 'queued': '0', 'sent': '45'},
                 {'recved': '905', 'port': '57782', 'host': '1.1.5.14', 'n': '1', 'queued': '0', 'sent': '905'},
                 {'recved': '1093', 'port': '36027', 'host': '1.1.5.23', 'n': '1', 'queued': '0', 'sent': '1093'},
-                {'recved': '101', 'port': '39362', 'host': '1.1.5.137', 'n': '1', 'queued': '0', 'sent': '101'}]
-        },
+                {'recved': '101', 'port': '39362', 'host': '1.1.5.137', 'n': '1', 'queued': '0', 'sent': '101'}]},
         'not_parsed': ['Clients:']
     },
     'no_clients': {
@@ -79,15 +78,56 @@ parse_stat_data = {
               '/1.1.5.137[1](queued=0,recved=101,sent=101)'.split('\n'),
         'parsed': {
             'head': '',
-            'clients': []
-        },
+            'clients': []},
         'not_parsed': [
             'ZooWithout proper head',
             'Clients:',
             '/1.1.5.38:60841[1](queued=0,recved=45)',
             '/aa.1.5.14:57782[1](queued=0,recved=905,sent=905)',
             '/1.1.5.23:36027[1](queued=dddd,recved=1093,sent=1093)',
-            '/1.1.5.137[1](queued=0,recved=101,sent=101)'
-        ]
+            '/1.1.5.137[1](queued=0,recved=101,sent=101)']
     },
+}
+
+envi = {
+    'in': """
+    zookeeper.version=3.4.6-1569965, built on 02/20/2014 09:09 GMT
+    host.name=vm-10-177-54-121.c1r1.onet
+    java.version=1.7.0_65
+    java.vendor=Oracle Corporation
+    java.home=/usr/lib/jvm/java-7-openjdk-amd64/jre
+    java.class.path=/usr/share/java/zookeeper.jar
+    java.library.path=/usr/lib/x86_64-linux-gnu/jni
+    java.io.tmpdir=/tmp
+    java.compiler=<NA>
+    os.name=Linux
+    os.arch=amd64
+    os.version=3.11.0-26-generic
+    user.name=zookeeper
+    user.home=/var/lib/zookeeper
+    user.dir=/
+    """,
+    'out': {
+        'java.io.tmpdir': '/tmp',
+        'java.class.path': '/usr/share/java/zookeeper.jar',
+        'java.library.path': '/usr/lib/x86_64-linux-gnu/jni',
+        'java.compiler': '<NA>',
+        'os.version': '3.11.0-26-generic',
+        'os.arch': 'amd64',
+        'zookeeper.version': '3.4.6-1569965, built on 02/20/2014 09:09 GMT',
+        'java.home': '/usr/lib/jvm/java-7-openjdk-amd64/jre',
+        'user.dir': '/',
+        'java.version': '1.7.0_65',
+        'os.name': 'Linux',
+        'java.vendor': 'Oracle Corporation',
+        'host.name': 'vm-10-177-54-121.c1r1.onet',
+        'user.home': '/var/lib/zookeeper',
+        'user.name': 'zookeeper'
+    }
+}
+
+
+simple= {
+    'in': 'ABCDEF',
+    'out': 'ABCDEF'
 }
