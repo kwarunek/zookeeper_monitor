@@ -241,7 +241,7 @@ class Host(object):
         """ Reset statistics returned by stat command
         """
         data = yield self.execute('srst')
-        raise gen.Return(data)
+        raise gen.Return(data.decode('utf-8'))
 
     @command_executor
     @gen.coroutine
