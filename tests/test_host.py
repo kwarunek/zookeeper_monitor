@@ -290,5 +290,5 @@ class HostTest(AsyncTestCase):
             ret = yield method()
             host.execute.assert_called_once_with(cmd)
             host.execute.reset_mock()
-            self.assertEqual(ret, FIXTURE.simple['out'])
+            self.assertEqual(ret.decode('utf-8'), FIXTURE.simple['out'])
 
