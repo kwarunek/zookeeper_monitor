@@ -110,7 +110,10 @@ TODO
 Changelog
 ---------
 
-0.2.0 - **release** - implement more commands, updated docs
+
+0.2.1 - fix package, fix tests
+
+0.2.0 - implement more commands, updated docs
 
 0.1.2 - **release** - pypi
 
