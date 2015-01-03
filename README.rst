@@ -30,7 +30,7 @@ Example:
 
 .. code-block:: python
 
-    from zookeeper_monitor from zk
+    from zookeeper_monitor import zk
 
     @tornado.gen.coroutine
     def some_coroutine()
@@ -58,7 +58,7 @@ You can wrap it to sync code if you are not using tornado
 Web monitor
 -----------
 
-To run web monitor you need to provide configuration, if you don't it will used as default `localhost:2181`.
+To run web monitor you need to provide configuration, if you don't, it will used `localhost:2181` by default.
 
 .. code-block:: bash
 
@@ -89,11 +89,13 @@ Defining cluster `cluster.json` (json or yaml)
         ]
     }
 
-- name (string): cluster name
-- hosts (list): List of hosts running ZooKeeper connected in cluster. Object:
-    - addr (string): IP or domain, mandatory
-    - port (int): ZooKeeper port, optional, default 2181
-    - dc (string): datacenter/location name, optional
+
+* name (string) - cluster name.
+* hosts (list) - List of hosts running ZooKeeper connected in cluster:
+
+  - addr (string): IP or domain, mandatory
+  - port (int): ZooKeeper port, optional, default 2181
+  - dc (string): datacenter/location name, optional
 
 License
 -------
