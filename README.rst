@@ -17,22 +17,61 @@ It can be installed from pypi or directly from git repository.
 
     pip install zookeeper_monitor
 
-    #or 
+    #or
 
     git clone https://github.com/kAlmAcetA/zookeeper_monitor.git
     cd zookeeper_monitor/
     python setup.py install
+
+Usage
+------------
+
+Example:
+
+.. code-block:: python
+
+    from zookeeper_monitor from zk
+
+    @tornado.gen.coroutine
+    def some_coroutine()
+        host = zk.Host('zookeeper.addr.ip', 2181)
+        # you can run each command as a coroutine example:
+        # get srvr data
+        srvr_data = yield host.srvr()
+        # get stat data
+        stat_data = yield host.stat()
+        # get server state
+        ruok = yield host.ruok()
+        # stop zookeeper
+        yield host.kill()
+
+
+You can wrap it to sync code if you are not using tornado
+
+.. code-block:: python
+
+    from tornado.ioloop import IOLoop
+
+    IOLoop.instance().run_sync(some_coroutine)
 
 
 Web monitor
 -----------
 
 To run web monitor you need to provide configuration, if you don't it will used as default `localhost:2181`.
-    
+
 .. code-block:: bash
 
     python -m zookeeper_monitor.web
 
+    # with configuration file
+    python -m zookeeper_monitor.web -c /somepath/cluster.json
+
+    # to see available options
+    python -m zookeeper_monitor.web --help
+
+
+Next you navigate to http://127.0.0.1:8080/ (or whatever you specified).
 
 Configuration
 -------------
@@ -41,15 +80,15 @@ Defining cluster `cluster.json` (json or yaml)
 
 .. code-block:: json
 
-    {    
-        "name": "brand-new-zookeeper-cluster",    
-        "hosts": [    
-            {"addr": "10.1.15.1", "port": 2181, "dc":"eu-west"},    
-            {"addr": "10.2.31.2", "port": 2181, "dc":"us-east"},    
-            {"addr": "10.1.12.3", "port": 2181, "dc":"eu-west"}       
-        ]    
-    } 
-    
+    {
+        "name": "brand-new-zookeeper-cluster",
+        "hosts": [
+            {"addr": "10.1.15.1", "port": 2181, "dc":"eu-west"},
+            {"addr": "10.2.31.2", "port": 2181, "dc":"us-east"},
+            {"addr": "10.1.12.3", "port": 2181, "dc":"eu-west"}
+        ]
+    }
+
 - name (string): cluster name
 - hosts (list): List of hosts running ZooKeeper connected in cluster. Object:
     - addr (string): IP or domain, mandatory
@@ -64,10 +103,12 @@ TODO
 ----
 - more tests
 - more stats in webmonitor
-
+- parse output of dump, reqs
 
 Changelog
 ---------
+
+0.2.0 - **release** - implement all commands, updated docs
 
 0.1.2 - **release** - pypi
 
