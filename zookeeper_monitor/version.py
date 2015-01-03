@@ -5,5 +5,5 @@ This file is only to have editable version in one place.
 
 """
 
-__version__ = '0.1.2'
+__version__ = '0.2.0'
 __app__ = 'zookeeper_monitor'
