@@ -101,6 +101,7 @@ MIT
 
 TODO
 ----
+- wrap rest of the commands (by now stat and srvr)
 - more tests
 - more stats in webmonitor
 - parse zookeeper version
