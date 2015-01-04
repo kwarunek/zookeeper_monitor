@@ -1,10 +1,12 @@
 zookeeper_monitor
 ==================
 
-|image0|_
+|image0|_ |image1|_
 
 .. |image0| image:: https://api.travis-ci.org/kAlmAcetA/zookeeper_monitor.png?branch=master
 .. _image0: https://travis-ci.org/kAlmAcetA/zookeeper_monitor
+.. |image1| image:: https://landscape.io/github/kAlmAcetA/zookeeper_monitor/master/landscape.svg
+.. _image1: https://landscape.io/github/kAlmAcetA/zookeeper_monitor
 
 Module lets you call ZooKeeper commands - four letters commands over TCP - https://zookeeper.apache.org/doc/r3.1.2/zookeeperAdmin.html#sc_zkCommands. It also has built-in web monitor. Based on Tornado, compatibile with Python 2.7.x, 3.x and above. It doesn't require zookeeper, nor zookeeper's headers (since it doesn't utilize zkpython).
 
