@@ -131,6 +131,7 @@ TODO
 Changelog
 ---------
 
+0.2.2 - clean ups: pylint, README, classifiers
 
 0.2.1 - fix package, fix tests
 
