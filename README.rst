@@ -100,6 +100,21 @@ Defining cluster `cluster.json` (json or yaml)
   - addr (string): IP or domain, mandatory
   - port (int): ZooKeeper port, optional, default 2181
   - dc (string): datacenter/location name, optional
+  
+Screenshots
+-----------
+
+Cluster view
+|image22|_
+
+.. |image22| image:: https://cloud.githubusercontent.com/assets/670887/5609840/172c1e38-94aa-11e4-92e5-9b4e8a06632c.png
+.. _image22: https://cloud.githubusercontent.com/assets/670887/5609840/172c1e38-94aa-11e4-92e5-9b4e8a06632c.png
+
+Node stat view
+|image23|_
+
+.. |image23| image:: https://cloud.githubusercontent.com/assets/670887/5609842/1be19584-94aa-11e4-8cd1-5df63c1bfaaf.png
+.. _image23: https://cloud.githubusercontent.com/assets/670887/5609842/1be19584-94aa-11e4-8cd1-5df63c1bfaaf.png
 
 License
 -------
