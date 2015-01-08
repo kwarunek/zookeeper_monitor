@@ -9,7 +9,7 @@ import signal
 import tornado.web
 from tornado.ioloop import IOLoop
 from .handlers import HtmlHostHandler, HtmlClusterHandler, JsonClusterHandler, JsonHostHandler
-from zk import Cluster
+from .zk import Cluster
 from .version import __app__, __version__
 
 
