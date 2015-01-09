@@ -131,6 +131,10 @@ TODO
 Changelog
 ---------
 
+0.2.4 - separate getter template/static dir
+
+0.2.3 - fix import in py3 web
+
 0.2.2 - clean ups: pylint, README, classifiers
 
 0.2.1 - fix package, fix tests
