@@ -131,6 +131,8 @@ TODO
 Changelog
 ---------
 
+0.2.5 - implemented `with_timeout`, handlers get_template, py3.3 gen.Task in Host, css colors
+
 0.2.4 - separate getter template/static dir
 
 0.2.3 - fix import in py3 web
