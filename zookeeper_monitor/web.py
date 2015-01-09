@@ -69,12 +69,9 @@ class WebMonitor(tornado.web.Application):
     """
 
     def __init__(self):
-        self.root_path = os.path.dirname(__file__)
-        static_path = os.path.join(self.root_path, 'front/static')
-        template_path = os.path.join(self.root_path, 'front/template/')
 
         handlers = [
-            (r'/(favicon.png)', tornado.web.StaticFileHandler, {'path': static_path}),
+            (r'/(favicon.png)', tornado.web.StaticFileHandler, {'path': self._get_path('static')}),
             (r'/cluster\.json', JsonClusterHandler),
             (r'/cluster/host/(?P<param>[^\/]+)\.json', JsonHostHandler),
             (r'/cluster/host/(?P<param>[^\/]+)', HtmlHostHandler),
@@ -84,7 +81,14 @@ class WebMonitor(tornado.web.Application):
 
         self._cluster = None
         tornado.web.Application.__init__(
-            self, handlers, debug=True, static_path=static_path, template_path=template_path)
+            self, handlers, debug=True,
+            static_path=self._get_path('static'),
+            template_path=self._get_path('template')
+        )
+
+    def _get_path(self, resource):
+        self.root_path = os.path.dirname(__file__)
+        return os.path.join(self.root_path, 'front/{}/'.format(resource))
 
     def load_config_from_file(self, config_file, force_format=None):
         """ Load config from file
