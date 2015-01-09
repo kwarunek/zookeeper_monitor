@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import os
 import anyconfig
 from tornado import gen, web
 
@@ -6,6 +7,11 @@ from tornado import gen, web
 class BaseHandler(web.RequestHandler):
     """ Handles json request for cluster data """
     ACTION = 'r'
+
+    def get_template_path(self):
+        self.root_path = os.path.dirname(__file__)
+        return os.path.join(self.root_path, 'front/template/')
+
 
     @gen.coroutine
     def get(self, param=None):  # pylint: disable=W0221

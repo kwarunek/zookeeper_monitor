@@ -60,7 +60,7 @@
             background-color:#6BE373;
         }
         p.dinfo { width: 90%; text-align:center;margin:0 auto;}
-        a.ERROR {
+        a.DOWN, a.ERROR, a.TIMEOUT {
             background-color: #FAB1B1;
             border-left:5px solid #AD1515;
         }
@@ -80,7 +80,9 @@
             background: #1E9622;
             text-transform: uppercase;
         }
-        a.ERROR div.mode {
+        a.ERROR div.mode,
+        a.DOWN div.mode,
+        a.TIMEOUT div.mode {
             background: #AD1515;
         }
         a.leader div.mode {

@@ -16,8 +16,33 @@ from tornado import gen
 from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 from tornado.netutil import Resolver
+from tornado.concurrent import Future, chain_future
 from .exceptions import HostConnectionTimeout, HostSetTimeoutTypeError
 from .exceptions import HostSetTimeoutValueError, HostInvalidInfo
+
+
+def with_timeout(timeout, future, io_loop=None):
+    """Wraps a `.Future` in a timeout.
+    """
+    result = Future()
+    chain_future(future, result)
+    if io_loop is None:
+        io_loop = IOLoop.current()
+    timeout_handle = io_loop.add_timeout(
+        timeout,
+        lambda: result.set_exception(HostConnectionTimeout("Timeout")))
+    if isinstance(future, Future):
+        # We know this future will resolve on the IOLoop, so we don't
+        # need the extra thread-safety of IOLoop.add_future (and we also
+        # don't care about StackContext here.
+        future.add_done_callback(
+            lambda future: io_loop.remove_timeout(timeout_handle))
+    else:
+        # concurrent.futures.Futures may resolve on any thread, so we
+        # need to route them back to the IOLoop.
+        io_loop.add_future(
+            future, lambda future: io_loop.remove_timeout(timeout_handle))
+    return result
 
 
 def command_executor(func):
@@ -34,12 +59,13 @@ def command_executor(func):
 
         """
         try:
-            ret = yield func(self, *args, **kwds)
+            future = func(self, *args, **kwds)
+            ret = yield with_timeout(time.time() + self.timeout, future)
             raise gen.Return(ret)
         except gen.Return:
             raise
         except HostConnectionTimeout as exception:
-            logging.warning('Exception: %s', exception)
+            logging.warning('ExceptionTimeout: %s', exception)
             self.health = Host.HOST_TIMEOUT
         except Exception as exception:
             logging.warning('Exception: %s', exception)
@@ -329,30 +355,13 @@ class Host(object):
             Socket Errors: like ECONNNECTIONREFUSED,...
         """
 
-        def on_timeout():
-            """ Timeout handler
-
-            Raises:
-                HostConnectionTimeout: Raised to propagate error
-
-            """
-            stream.close(True)
-            raise HostConnectionTimeout('Unable to connect to {} on {}'.format(self.addr, self.port))
-
         ioloop = IOLoop.current()
         address_family, addr = yield self._resolve(ioloop)
         stream = IOStream(socket.socket(address_family), io_loop=ioloop)
-
-        # we need some timeout...
-        timeout = ioloop.add_timeout(time.time() + self.timeout, on_timeout)
-
         stream.connect(addr)
         cmd = '{}\n'.format(cmd.strip())
-        yield stream.write(cmd.encode('utf-8'))
-
-        data = yield stream.read_until_close()
-        ioloop.remove_timeout(timeout)
-
+        yield gen.Task(stream.write, cmd.encode('utf-8'))
+        data = yield gen.Task(stream.read_until_close)
         raise gen.Return(data)
 
     @gen.coroutine

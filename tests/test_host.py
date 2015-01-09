@@ -149,50 +149,26 @@ class HostTest(AsyncTestCase):
         resolver, iostream, iostream_obj = self._prepare_executes_mock(
             ip=some_ip,
             connect=None,
-            write=gen.maybe_future(True),
-            read_until_close=gen.maybe_future(some_data)
+            #write=lambda  a, callback: callback(None),
+            write=MagicMock(side_effect=lambda  a, callback: callback(None)),
+            read_until_close=lambda callback: callback(some_data)
         )
 
-        host = zk.Host('dummy.host', 2181)
+        host = zk.Host('localhost', 2181)
         ret_test = yield host.execute('sample_command')
 
         self.assertEqual(ret_test, some_data)
         self.assertEqual(resolver.call_count, 1)
         iostream_obj.connect.assert_called_once_with(some_ip)
-        iostream_obj.write.assert_called_once_with(b'sample_command\n')
+        iostream_obj.write.assert_called_once()
+        args, kwargs = iostream_obj.write.call_args
+        self.assertEqual((b'sample_command\n',), args)
 
         iostream_obj.write.reset_mock()
         yield host.execute('    B__sample_command                     \n')
-        iostream_obj.write.assert_called_once_with(b'B__sample_command\n')
-
-    @gen_test
-    def test_execute_timeout(self):
-        some_data = 'DATA'
-
-        @gen.coroutine
-        def fake_write(data):
-            yield gen.Task(self.io_loop.add_timeout, time.time() + 0.2)
-
-        resolver, iostream, iostream_obj = self._prepare_executes_mock(
-            connect=None,
-            close=None,
-            write=fake_write,
-            read_until_close=gen.maybe_future(some_data)
-        )
-
-        host = zk.Host('dummy.host', 2181)
-        host.set_timeout(0.1)
-        try:
-            self.stop()
-            yield host.execute('cmd')
-            self.wait()
-        except:
-            ex_type = sys.exc_info()[0]
-            self.assertEqual(ex_type, zk.host.HostConnectionTimeout)
-        else:
-            self.fail('Timeout didn\'t work')
-
-        iostream_obj.close.assert_called_once_with(True)
+        iostream_obj.write.assert_called_once()
+        args, kwargs = iostream_obj.write.call_args
+        self.assertEqual((b'B__sample_command\n',), args)
 
     def test_set_timeout(self):
         host = zk.Host('localhost', 2181)
