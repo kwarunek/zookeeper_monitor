@@ -16,7 +16,7 @@ setup(
     description='Zookeeper\'s four letters command wrapper and web monitor.',
     include_package_data = True,
     keywords='zookeeper, tcp, tornado',
-    url='https://github.com/kAlmAcetA/zookeeper_monitor',
+    url='https://github.com/kwarunek/zookeeper_monitor',
     long_description=open('README.rst').read(),
     install_requires=open('requirements.txt', 'r').read(),
     tests_require=['mock', 'nose', 'coverage'],

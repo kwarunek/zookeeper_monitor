@@ -3,10 +3,10 @@ zookeeper_monitor
 
 |image0|_ |image2|_ |image1|_
 
-.. |image0| image:: https://api.travis-ci.org/kAlmAcetA/zookeeper_monitor.png?branch=master
-.. _image0: https://travis-ci.org/kAlmAcetA/zookeeper_monitor
-.. |image1| image:: https://landscape.io/github/kAlmAcetA/zookeeper_monitor/master/landscape.svg?style=flat
-.. _image1: https://landscape.io/github/kAlmAcetA/zookeeper_monitor
+.. |image0| image:: https://api.travis-ci.org/kwarunek/zookeeper_monitor.png?branch=master
+.. _image0: https://travis-ci.org/kwarunek/zookeeper_monitor
+.. |image1| image:: https://landscape.io/github/kwarunek/zookeeper_monitor/master/landscape.svg?style=flat
+.. _image1: https://landscape.io/github/kwarunek/zookeeper_monitor
 .. |image2| image:: https://pypip.in/version/zookeeper_monitor/badge.svg?style=flat
 .. _image2: https://pypi.python.org/pypi/zookeeper_monitor
 
@@ -23,7 +23,7 @@ It can be installed from pypi or directly from git repository.
 
     #or
 
-    git clone https://github.com/kAlmAcetA/zookeeper_monitor.git
+    git clone https://github.com/kwarunek/zookeeper_monitor.git
     cd zookeeper_monitor/
     python setup.py install
 
@@ -130,6 +130,8 @@ TODO
 
 Changelog
 ---------
+
+0.3.0 - implemented `mntr`, credits to @robbwagoner
 
 0.2.5 - implemented `with_timeout`, handlers get_template, py3.3 gen.Task in Host, css colors
 
