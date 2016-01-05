@@ -20,6 +20,7 @@ from tornado.concurrent import Future, chain_future
 from .exceptions import HostConnectionTimeout, HostSetTimeoutTypeError
 from .exceptions import HostSetTimeoutValueError, HostInvalidInfo
 
+from distutils.version import LooseVersion
 
 def with_timeout(timeout, future, io_loop=None):
     """Wraps a `.Future` in a timeout.
@@ -260,6 +261,29 @@ class Host(object):
         info = self._parse_info(not_parsed, update_host_info)
         info.update(parsed)
         raise gen.Return(info)
+
+    @command_executor
+    @gen.coroutine
+    def mntr(self, update_host_info=True):
+        """ Lists statistics for monitoring the health of a cluster
+
+            The `mntr` 4lw was added in Zookeeper version 3.4.0
+        """
+        result = {}
+        srvr = yield self.srvr()
+        m = re.match(r'^(?P<ver>[\d.-]+)', srvr['zookeeper'])
+        if m and LooseVersion(m.group('ver')) >= LooseVersion('3.4.0'):
+            data = yield self.execute('mntr')
+            lines = data.decode('utf-8').split('\n')
+            for line in lines:
+                if line:
+                    # only parse non-emtpy lines
+                    line = line.strip().split('\t')
+                    result[line[0]] = line[1]
+        else:
+            result['version_unsupprted'] = m.group('ver')
+
+        raise gen.Return(result)
 
     @command_executor
     @gen.coroutine
